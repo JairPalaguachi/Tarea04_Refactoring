@@ -3,52 +3,26 @@ package AbstractFactory;
 import java.util.Scanner;
 
 public class PagoHandler {
+    private PaymentProcessor processor;
+    private PaymentValidator validator;
+    private UserInteractionHandler interactionHandler;
 
-    private ServicioDePago servicio;
-    public void procesar_Pago(UserPurchase up, Scanner sc){
-        System.out.println("Procesando pago...");
-        servicio.realizar_pago(up, sc);
-    }
-    public void mostrar_confirmacion( boolean b, Scanner scanner, UserPurchase up){
-        System.out.println("¿Está usted seguro de continuar con el pago? (si/no)");
-        String respuesta = scanner.nextLine();
-        while (true){
-            if (respuesta.equalsIgnoreCase("si")){
-                NotificationHandler.mostrar_resultadoPago(true,up);
-                // Notificación de la compra
-                System.out.println("\n¡Compra exitosa! Le hemos enviado una notificación a su email.");
-                break;
-            }else if (respuesta.equalsIgnoreCase("no")){
-                NotificationHandler.mostrar_resultadoPago(false,up);
-                // Notificación de la compra
-                System.out.println("\n¡Compra cancelada! Le hemos enviado una notificación a su email.");
-                break;
-            }    
-            else {
-                System.out.println("Entrada inválida. Debe ser si/no.");
-                scanner.next();  // Limpiar buffer
-            }
-        }
-
+    public PagoHandler() {
+        this.processor = new PaymentProcessor(new ServicioDePago());
+        this.validator = new PaymentValidator();
+        this.interactionHandler = new UserInteractionHandler();
     }
 
-    // Método para obtener un número válido 
-    public  int obtenerNumeroValido(Scanner scanner, String mensaje, int min, int max) {
-        int numero;
-        while (true) {
-            System.out.print(mensaje);
-            if (scanner.hasNextInt()) {
-                numero = scanner.nextInt();
-                if (numero >= min && numero <= max) {
-                    break;
-                } else {
-                    System.out.println("El número de tarjeta debe estar entre " + min + " y " + max + ".");
-                }
-            } else {
-                System.out.println("Entrada inválida. Debe ser un número.");
-                scanner.next();  // Limpiar buffer
-            }
+    public void procesarPagoConValidacion(UserPurchase up, Scanner scanner) {
+        processor.procesarPago(up,scanner);
+
+        int tarjetaValida = validator.obtenerNumeroValido(scanner, "Ingrese el número de tarjeta (solo números): ", 100000000, 999999999);
+
+        boolean confirmar = interactionHandler.confirmarCompra(scanner);
+        if (confirmar) {
+            System.out.println("Pago confirmado para el número de tarjeta: " + tarjetaValida);
+        } else {
+            System.out.println("El pago ha sido cancelado.");
         }
-        return numero;
     }
 }

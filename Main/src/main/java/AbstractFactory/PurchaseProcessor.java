@@ -8,49 +8,49 @@ import Decorator.Decorator;
 import Decorator.EstacionamientoDecorator;
 
 public class PurchaseProcessor   {
-
-    public static void dar_datos_pago(String cliente_name, String cliente_lastname, String cliente_method, int cliente_card){
-        System.out.println("Dando datos de pago...");
-
-    }
-
-    public static void actualizar_costo(){
-        System.out.println("Actualizando el costo...");
-    }
-
-    public static void solicitar_datos_pago(Scanner scanner, Ticket ticket, double precioBase, int asiento, UserPurchase up) {
-        System.out.println("Solicitando Datos...");
-        String metodoPago = obtenerMetodosPago(scanner);
+    static PaymentValidator paymentV;
+        public static void dar_datos_pago(String cliente_name, String cliente_lastname, String cliente_method, int cliente_card){
+            System.out.println("Dando datos de pago...");
     
-        if (metodoPago.equalsIgnoreCase("Paypal")) {
-            procesarPagoConMetodo(scanner, ticket, precioBase, asiento, up, metodoPago);
-        } else if (metodoPago.equalsIgnoreCase("Tarjeta")) {
-            procesarPagoConMetodo(scanner, ticket, precioBase, asiento, up, metodoPago);
-        } else {
-            System.out.println("Método de pago inválido. Por favor, ingrese 'Paypal' o 'Tarjeta'.");
         }
-    }
-
-    private static String obtenerMetodosPago(Scanner scanner){
-        String metodoPago;
-        while (true) {
-            System.out.print("\nIngrese el método de pago (Paypal/Tarjeta): ");
-            metodoPago = scanner.nextLine();
-            if (metodoPago.equalsIgnoreCase("Paypal") || metodoPago.equalsIgnoreCase("Tarjeta")) {
-                break;
+    
+        public static void actualizar_costo(){
+            System.out.println("Actualizando el costo...");
+        }
+    
+        public static void solicitar_datos_pago(Scanner scanner, Ticket ticket, double precioBase, int asiento, UserPurchase up) {
+            System.out.println("Solicitando Datos...");
+            String metodoPago = obtenerMetodosPago(scanner);
+        
+            if (metodoPago.equalsIgnoreCase("Paypal")) {
+                procesarPagoConMetodo(scanner, ticket, precioBase, asiento, up, metodoPago);
+            } else if (metodoPago.equalsIgnoreCase("Tarjeta")) {
+                procesarPagoConMetodo(scanner, ticket, precioBase, asiento, up, metodoPago);
             } else {
-                System.out.println("Método de pago inválido. Intente nuevamente.");
+                System.out.println("Método de pago inválido. Por favor, ingrese 'Paypal' o 'Tarjeta'.");
             }
         }
-        return metodoPago;
-    }
-
-    private static void procesarPagoConMetodo(Scanner scanner, Ticket ticket, double precioBase, int asiento, UserPurchase up, String metodoPago) {
-        IAbstractFactoryPago pago = new Pago();
-        pago.procesar_Pago(up);
-        PagoHandler pagoHandler = pago.crearServicioPago();
     
-        int numeroTarjeta = pagoHandler.obtenerNumeroValido(scanner, "Ingrese el número de tarjeta (solo números): ", 100000000, 999999999);
+        private static String obtenerMetodosPago(Scanner scanner){
+            String metodoPago;
+            while (true) {
+                System.out.print("\nIngrese el método de pago (Paypal/Tarjeta): ");
+                metodoPago = scanner.nextLine();
+                if (metodoPago.equalsIgnoreCase("Paypal") || metodoPago.equalsIgnoreCase("Tarjeta")) {
+                    break;
+                } else {
+                    System.out.println("Método de pago inválido. Intente nuevamente.");
+                }
+            }
+            return metodoPago;
+        }
+    
+        private static void procesarPagoConMetodo(Scanner scanner, Ticket ticket, double precioBase, int asiento, UserPurchase up, String metodoPago) {
+            IAbstractFactoryPago pago = new Pago();
+            pago.procesar_Pago(up);
+            PagoHandler pagoHandler = pago.crearServicioPago();
+        
+            int numeroTarjeta = paymentV.obtenerNumeroValido(scanner, "Ingrese el número de tarjeta (solo números): ", 100000000, 999999999);
         dar_datos_pago(up.getClienteName(), up.getClienteLastName(), metodoPago, numeroTarjeta);
     
         boolean agregarExtras = solicitarOpcionesAdicionales(scanner, ticket);
@@ -60,7 +60,7 @@ public class PurchaseProcessor   {
     
         // Mostrar resumen de compra
         mostrarResumenCompra(ticket, precioBase, asiento, agregarExtras);
-        pagoHandler.mostrar_confirmacion(true, scanner, up);
+        
     }
 
     private static void mostrarResumenCompra(Ticket ticket, double precioBase, int asiento, boolean agregarExtras) {
