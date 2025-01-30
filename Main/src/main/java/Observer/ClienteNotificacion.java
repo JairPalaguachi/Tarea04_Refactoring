@@ -29,6 +29,10 @@ public class ClienteNotificacion {
         this.clientes = new ArrayList<>();
     }
 
+    public ClienteNotificacion(){
+        
+    }
+
 
     public void suscribir(INotificarCanal canal) {
         System.out.println("Te subscribiste al canal "+canal);

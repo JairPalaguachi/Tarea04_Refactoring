@@ -28,6 +28,9 @@ public class User {
         this.factory = factory;
         this.map= map;
     }
+    public User(){
+        
+    }
 
     public void printUserInfo() {
         System.out.println("Usuario: " + userName + " " + lastName + ", Email: " + userEmail);
