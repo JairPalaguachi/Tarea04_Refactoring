@@ -74,7 +74,7 @@ public class UserPurchase {
             metodoPago = scanner.nextLine();
             if (metodoPago.equalsIgnoreCase("Paypal")) {
                 
-                IAbstractFactoryPago paypal = new Paypal();
+                IAbstractFactoryPago paypal = new Pago();
                 paypal.procesar_Pago(this);
                 PagoHandler pagoHandler= paypal.crearServicioPago();
                 int tarjeta= pagoHandler.obtenerNumeroValido(scanner, "Ingrese el número de tarjeta (solo números): ", 100000000, 999999999);
@@ -168,7 +168,7 @@ public class UserPurchase {
                         
                 
             } else if (metodoPago.equalsIgnoreCase("Tarjeta")){
-                IAbstractFactoryPago tarjeta = new Tarjeta();
+                IAbstractFactoryPago tarjeta = new Pago();
                 tarjeta.procesar_Pago(this);
                 PagoHandler pagoHandler= tarjeta.crearServicioPago();
                 int numero= pagoHandler.obtenerNumeroValido(scanner, "Ingrese el número de tarjeta (solo números): ", 100000000, 999999999);
