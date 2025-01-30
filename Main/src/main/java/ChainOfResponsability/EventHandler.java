@@ -24,7 +24,7 @@ public class EventHandler {
     
         public void notificarFracaso(INotificarCanal ic, Scanner sc, UserPurchase up){
             System.out.println("Notificando fracado...");
-            u.solicitar_datos_pago(sc,null,0.0,0, up);
+            up.solicitar_datos_pago(sc,null,0.0,0);
         ic.enviar_notificacion("Enviando notificacion", true, this, sc, up);
 
     }

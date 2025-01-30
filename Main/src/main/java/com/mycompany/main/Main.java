@@ -100,7 +100,7 @@ public class Main {
         scanner.nextLine();  // Esto consume el salto de línea dejado por nextInt()
 
         // Datos de pago
-        usuario.solicitar_datos_pago(scanner,ticket,precioBase,asiento,userPurchase);
+        userPurchase.solicitar_datos_pago(scanner,ticket,precioBase,asiento);
 
     }
         
