@@ -1,11 +1,4 @@
 package AbstractFactory;
-import java.net.Socket;
-import java.util.Scanner;
-
-import Decorator.AlimentoDecorator;
-import Decorator.BebidaDecorator;
-import Decorator.Decorator;
-import Decorator.EstacionamientoDecorator;
 
 public class User {
     private int idUser;
