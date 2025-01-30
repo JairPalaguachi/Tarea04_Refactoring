@@ -2,6 +2,7 @@ package com.mycompany.main;
 
 import AbstractFactory.Map;
 import AbstractFactory.MicroTeatroFactory;
+import AbstractFactory.PurchaseProcessor;
 import AbstractFactory.SelectFunctionsMaps;
 import AbstractFactory.StandUpFactory;
 import AbstractFactory.TeatroFactory;
@@ -100,7 +101,7 @@ public class Main {
         scanner.nextLine();  // Esto consume el salto de línea dejado por nextInt()
 
         // Datos de pago
-        userPurchase.solicitar_datos_pago(scanner,ticket,precioBase,asiento);
+        PurchaseProcessor.solicitar_datos_pago(scanner,ticket,precioBase,asiento, userPurchase);
 
     }
         

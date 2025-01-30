@@ -9,17 +9,17 @@ public class PagoHandler {
         System.out.println("Procesando pago...");
         servicio.realizar_pago(up, sc);
     }
-    public void mostrar_confirmacion(UserPurchase up, boolean b, Scanner scanner){
+    public void mostrar_confirmacion( boolean b, Scanner scanner, UserPurchase up){
         System.out.println("¿Está usted seguro de continuar con el pago? (si/no)");
         String respuesta = scanner.nextLine();
         while (true){
             if (respuesta.equalsIgnoreCase("si")){
-                up.mostrar_resultadoPago(true);
+                NotificationHandler.mostrar_resultadoPago(true,up);
                 // Notificación de la compra
                 System.out.println("\n¡Compra exitosa! Le hemos enviado una notificación a su email.");
                 break;
             }else if (respuesta.equalsIgnoreCase("no")){
-                up.mostrar_resultadoPago(false);
+                NotificationHandler.mostrar_resultadoPago(false,up);
                 // Notificación de la compra
                 System.out.println("\n¡Compra cancelada! Le hemos enviado una notificación a su email.");
                 break;
