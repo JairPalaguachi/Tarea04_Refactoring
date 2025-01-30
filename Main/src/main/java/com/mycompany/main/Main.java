@@ -90,7 +90,7 @@ public class Main {
         }
 
         // Verificar disponibilidad del ticket
-        ticket.verDisponibilidad();
+        ticket.estaDisponible();
 
         // Selección de asiento
         int asiento = obtenerOpcionValida(scanner, "\nElija el número de asiento (1-10): ", 1, 10);
