@@ -8,7 +8,7 @@ import Decorator.Decorator;
 import Decorator.EstacionamientoDecorator;
 
 public class PurchaseProcessor   {
-    static PaymentValidator paymentV;
+    public static PaymentValidator paymentV;
         public static void dar_datos_pago(String cliente_name, String cliente_lastname, String cliente_method, int cliente_card){
             System.out.println("Dando datos de pago...");
     
